@@ -4,7 +4,6 @@
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-green?style=flat-square&logo=openai)](https://openai.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 ---
@@ -50,7 +49,7 @@
 ### Core Features
 
 ✅ **AI-Powered Blog Generation**
-- Uses OpenAI GPT-4o-mini for intelligent content creation
+- Uses Gemini Pro model for intelligent content creation
 - Generates 2,000+ word blogs with 5 sections + FAQ
 - Optimized for search intent and audience
 
@@ -106,7 +105,7 @@ Frontend:
 
 Backend:
 ├── Next.js API Routes
-├── OpenAI API (GPT-4o-mini)
+├── Gemini API (Pro)
 └── Node.js Runtime
 
 Storage:
@@ -128,7 +127,7 @@ Zustand Store (State Management)
     ↓
 API Route (/api/generate)
     ↓
-OpenAI API (Blog Generation)
+Gemini API (Blog Generation)
     ↓
 SEO Calculator (Scoring)
     ↓
@@ -184,7 +183,7 @@ lib/
 
 - Node.js 18+
 - npm or yarn
-- OpenAI API key (get from https://platform.openai.com/api-keys)
+- Gemini API Key
 
 ### 2. Clone & Install
 
@@ -203,10 +202,10 @@ npm install
 # Create .env.local file
 cp .env.local.example .env.local
 
-# Add your OpenAI API key
-OPENAI_API_KEY=sk-your-actual-key-here
+# Add your Gemini API key
+GEMINI_API_KEY=sk-your-actual-key-here
 NEXT_PUBLIC_API_URL=http://localhost:3000
-NEXT_PUBLIC_MODEL=gpt-4o-mini
+NEXT_PUBLIC_MODEL= gemeni-pro
 ```
 
 ### 4. Run Development Server
@@ -285,7 +284,7 @@ npm start
 
 ```env
 # Required
-OPENAI_API_KEY=sk-your-openai-api-key
+GEMINI_API_KEY=sk-your-openai-api-key
 
 # Optional
 NEXT_PUBLIC_API_URL=http://localhost:3000

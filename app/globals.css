@@ -2,15 +2,17 @@
 
 @layer base {
   :root {
-    --bg: #0A0E13;
-    --surface: #0F172A;
-    --elevated: #111827;
-    --border: #1E293B;
-    --accent: #8B5CF6;
-    --accent-success: #22C55E;
-    --text: #E2E8F0;
-    --text-secondary: #94A3B8;
-    --muted: #64748B;
+    --bg: #1A1410;
+    --surface: #2A2218;
+    --elevated: #352B20;
+    --border: #4A3F30;
+    --accent: #FF8C42;
+    --accent-secondary: #FFB366;
+    --accent-success: #7FD858;
+    --text: #FFF8E7;
+    --text-secondary: #D4C5A9;
+    --muted: #8C7A5E;
+    --glow: rgba(255, 140, 66, 0.15);
   }
 
   * {
@@ -20,67 +22,157 @@
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-syne), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255, 140, 66, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(127, 216, 88, 0.05) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 248, 231, 0.02) 2px, rgba(255, 248, 231, 0.02) 4px);
+    pointer-events: none;
+    z-index: 0;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
   }
   ::-webkit-scrollbar-track {
     background: var(--bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 3px;
+    background: var(--accent);
+    border-radius: 4px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
+    background: var(--accent-secondary);
   }
 }
 
 @layer components {
   .card {
-    @apply rounded-lg border transition-all;
+    @apply rounded-none border-2 transition-all;
     background-color: var(--surface);
     border-color: var(--border);
+    box-shadow: 4px 4px 0 rgba(255, 140, 66, 0.1);
+  }
+
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 rgba(255, 140, 66, 0.15);
   }
 
   .card-elevated {
-    @apply rounded-lg border transition-all;
+    @apply rounded-none border-2 transition-all;
     background-color: var(--elevated);
-    border-color: var(--border);
+    border-color: var(--accent);
+    box-shadow: 6px 6px 0 var(--glow);
   }
 
   .btn-primary {
-    @apply px-4 py-2.5 rounded-lg font-semibold text-sm transition-all;
+    @apply px-6 py-3 rounded-none font-bold text-sm uppercase tracking-wider transition-all border-2;
     background-color: var(--accent);
-    color: white;
+    color: var(--bg);
+    border-color: var(--accent);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+    font-family: var(--font-mono);
   }
 
   .btn-primary:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: translate(0, 0);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
   }
 
   .btn-ghost {
-    @apply px-4 py-2.5 rounded-lg font-semibold text-sm border transition-all;
+    @apply px-6 py-3 rounded-none font-bold text-sm uppercase tracking-wider border-2 transition-all;
     background-color: transparent;
     border-color: var(--border);
     color: var(--text-secondary);
+    font-family: var(--font-mono);
   }
 
   .btn-ghost:hover {
-    border-color: var(--text-secondary);
-    color: var(--text);
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: var(--glow);
   }
 
   .label {
-    @apply text-xs font-semibold uppercase tracking-wider;
-    color: var(--muted);
+    @apply text-xs font-bold uppercase tracking-widest;
+    color: var(--accent);
+    font-family: var(--font-mono);
   }
 
   .text-secondary {
     color: var(--text-secondary);
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  .animate-slide-up {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+
+  .animate-slide-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .hover\:text-accent:hover {
+    color: var(--accent) !important;
   }
 }

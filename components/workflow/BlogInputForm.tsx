@@ -1,6 +1,7 @@
 "use client";
 import { useBlogStore } from "@/lib/store";
 import type { Intent } from "@/lib/types";
+import { ArrowRight, Target, Users, Globe, MessageSquare, Sparkles } from "lucide-react";
 
 const intents: Intent[] = ["informational", "commercial", "navigational", "transactional"];
 const tones = ["Professional", "Conversational", "Technical", "Persuasive"];
@@ -23,61 +24,89 @@ export default function BlogInputForm() {
 
   return (
     <div className="flex-1 overflow-y-auto" style={{ background: "var(--bg)" }}>
-      <div className="max-w-3xl mx-auto px-12 py-16">
-        <h1 className="text-4xl font-bold mb-12" style={{ color: "var(--text)" }}>
-          Create New Blog
-        </h1>
+      <div className="max-w-4xl mx-auto px-12 py-16">
+        {/* Header */}
+        <div className="mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-2 mb-6 border-2" 
+            style={{ borderColor: "var(--accent)", background: "var(--glow)" }}>
+            <Sparkles size={14} style={{ color: "var(--accent)" }} />
+            <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>
+              New Generation
+            </span>
+          </div>
+          <h1 className="text-6xl font-black mb-4 uppercase tracking-tight" style={{ color: "var(--text)" }}>
+            Create
+            <br />
+            <span style={{ color: "var(--accent)" }}>New Blog</span>
+          </h1>
+          <p className="text-lg" style={{ color: "var(--text-secondary)", fontFamily: "var(--font-serif)" }}>
+            Configure your SEO parameters and let AI do the heavy lifting.
+          </p>
+        </div>
 
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Keyword Input */}
           <div>
-            <label className="label mb-3 block">Target Keyword</label>
+            <div className="flex items-center gap-2 mb-4">
+              <Target size={16} style={{ color: "var(--accent)" }} />
+              <label className="label">Target Keyword</label>
+            </div>
             <input
               type="text"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
               placeholder="e.g., AI blog generator, machine learning basics..."
-              className="w-full px-4 py-3 rounded-lg text-base outline-none transition-all focus:ring-2"
+              className="w-full px-5 py-4 text-base outline-none transition-all border-2 focus:border-accent"
               style={{
                 background: "var(--surface)",
-                border: "1px solid var(--border)",
+                borderColor: "var(--border)",
                 color: "var(--text)",
-                "--tw-ring-color": "var(--accent)"
-              } as React.CSSProperties}
+                fontFamily: "var(--font-serif)",
+                boxShadow: "4px 4px 0 rgba(255, 140, 66, 0.1)"
+              }}
             />
           </div>
 
           {/* Audience Input */}
           <div>
-            <label className="label mb-3 block">Target Audience</label>
+            <div className="flex items-center gap-2 mb-4">
+              <Users size={16} style={{ color: "var(--accent)" }} />
+              <label className="label">Target Audience</label>
+            </div>
             <input
               type="text"
               value={audience}
               onChange={(e) => setAudience(e.target.value)}
               placeholder="e.g., Content marketers, software developers..."
-              className="w-full px-4 py-3 rounded-lg text-base outline-none transition-all focus:ring-2"
+              className="w-full px-5 py-4 text-base outline-none transition-all border-2 focus:border-accent"
               style={{
                 background: "var(--surface)",
-                border: "1px solid var(--border)",
+                borderColor: "var(--border)",
                 color: "var(--text)",
-                "--tw-ring-color": "var(--accent)"
-              } as React.CSSProperties}
+                fontFamily: "var(--font-serif)",
+                boxShadow: "4px 4px 0 rgba(255, 140, 66, 0.1)"
+              }}
             />
           </div>
 
           {/* Search Intent */}
           <div>
-            <label className="label mb-3 block">Search Intent</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-4 h-4 border-2" style={{ borderColor: "var(--accent)" }} />
+              <label className="label">Search Intent</label>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {intents.map((i) => (
                 <button
                   key={i}
                   onClick={() => toggleIntent(i)}
-                  className="px-3 py-2 rounded-lg text-sm font-medium transition-all capitalize"
+                  className="px-4 py-3 text-sm font-bold uppercase tracking-wide transition-all capitalize border-2"
                   style={{
-                    background: intent.includes(i) ? "rgba(139,92,246,0.2)" : "var(--surface)",
-                    border: intent.includes(i) ? "1px solid rgba(139,92,246,0.5)" : "1px solid var(--border)",
-                    color: intent.includes(i) ? "var(--accent)" : "var(--text-secondary)",
+                    background: intent.includes(i) ? "var(--accent)" : "var(--surface)",
+                    borderColor: intent.includes(i) ? "var(--accent)" : "var(--border)",
+                    color: intent.includes(i) ? "var(--bg)" : "var(--text-secondary)",
+                    fontFamily: "var(--font-mono)",
+                    boxShadow: intent.includes(i) ? "3px 3px 0 rgba(0, 0, 0, 0.3)" : "3px 3px 0 rgba(255, 140, 66, 0.1)"
                   }}>
                   {i}
                 </button>
@@ -87,17 +116,22 @@ export default function BlogInputForm() {
 
           {/* Region */}
           <div>
-            <label className="label mb-3 block">Region</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-2 mb-4">
+              <Globe size={16} style={{ color: "var(--accent)" }} />
+              <label className="label">Region</label>
+            </div>
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
               {regions.map((r) => (
                 <button
                   key={r}
                   onClick={() => setRegion(r)}
-                  className="px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                  className="px-4 py-3 text-sm font-bold uppercase tracking-wide transition-all border-2"
                   style={{
-                    background: region === r ? "rgba(139,92,246,0.2)" : "var(--surface)",
-                    border: region === r ? "1px solid rgba(139,92,246,0.5)" : "1px solid var(--border)",
-                    color: region === r ? "var(--accent)" : "var(--text-secondary)",
+                    background: region === r ? "var(--accent)" : "var(--surface)",
+                    borderColor: region === r ? "var(--accent)" : "var(--border)",
+                    color: region === r ? "var(--bg)" : "var(--text-secondary)",
+                    fontFamily: "var(--font-mono)",
+                    boxShadow: region === r ? "3px 3px 0 rgba(0, 0, 0, 0.3)" : "3px 3px 0 rgba(255, 140, 66, 0.1)"
                   }}>
                   {r}
                 </button>
@@ -107,17 +141,22 @@ export default function BlogInputForm() {
 
           {/* Tone */}
           <div>
-            <label className="label mb-3 block">Tone</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-2 mb-4">
+              <MessageSquare size={16} style={{ color: "var(--accent)" }} />
+              <label className="label">Tone</label>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {tones.map((t) => (
                 <button
                   key={t}
                   onClick={() => setTone(t)}
-                  className="px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                  className="px-4 py-3 text-sm font-bold uppercase tracking-wide transition-all border-2"
                   style={{
-                    background: tone === t ? "rgba(139,92,246,0.2)" : "var(--surface)",
-                    border: tone === t ? "1px solid rgba(139,92,246,0.5)" : "1px solid var(--border)",
-                    color: tone === t ? "var(--accent)" : "var(--text-secondary)",
+                    background: tone === t ? "var(--accent)" : "var(--surface)",
+                    borderColor: tone === t ? "var(--accent)" : "var(--border)",
+                    color: tone === t ? "var(--bg)" : "var(--text-secondary)",
+                    fontFamily: "var(--font-mono)",
+                    boxShadow: tone === t ? "3px 3px 0 rgba(0, 0, 0, 0.3)" : "3px 3px 0 rgba(255, 140, 66, 0.1)"
                   }}>
                   {t}
                 </button>
@@ -130,9 +169,25 @@ export default function BlogInputForm() {
             <button
               onClick={handleGenerate}
               disabled={!keyword.trim()}
-              className="w-full py-3 rounded-lg font-semibold text-base text-white transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{ background: "var(--accent)" }}>
-              Generate Blog →
+              className="w-full py-5 font-bold text-base uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed border-2 flex items-center justify-center gap-3"
+              style={{ 
+                background: "var(--accent)",
+                color: "var(--bg)",
+                borderColor: "var(--accent)",
+                fontFamily: "var(--font-mono)",
+                boxShadow: "6px 6px 0 rgba(0, 0, 0, 0.3)"
+              }}
+              onMouseEnter={(e) => {
+                if (!keyword.trim()) return;
+                e.currentTarget.style.transform = "translate(-2px, -2px)";
+                e.currentTarget.style.boxShadow = "8px 8px 0 rgba(0, 0, 0, 0.4)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translate(0, 0)";
+                e.currentTarget.style.boxShadow = "6px 6px 0 rgba(0, 0, 0, 0.3)";
+              }}>
+              <span>Generate Blog</span>
+              <ArrowRight size={20} />
             </button>
           </div>
         </div>

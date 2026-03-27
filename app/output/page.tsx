@@ -3,14 +3,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/layout/Sidebar";
 import SEOMetricsBreakdown from "@/components/workflow/SEOMetricsBreakdown";
-import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
+import { ComprehensiveAnalyticsDashboard } from "@/components/analytics/ComprehensiveAnalyticsDashboard";
 import { ArrowLeft, Copy, Download, Save } from "lucide-react";
 import { useBlogStore } from "@/lib/store";
 import { useState } from "react";
 
 export default function OutputPage() {
   const router = useRouter();
-  const { generatedBlog, keyword, saveProject } = useBlogStore();
+  const { generatedBlog, keyword, saveProject, resetForNewBlog } = useBlogStore();
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState<"blog" | "analytics">("blog");
 
@@ -18,6 +18,11 @@ export default function OutputPage() {
     saveProject();
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleCreateNewBlog = () => {
+    resetForNewBlog();
+    router.push("/workflow");
   };
 
   if (!generatedBlog) {
@@ -37,6 +42,7 @@ export default function OutputPage() {
   }
 
   const analytics = (generatedBlog as any).analytics;
+  const semrushScore = (generatedBlog as any).semrushScore;
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--bg)" }}>
@@ -45,11 +51,13 @@ export default function OutputPage() {
         {/* Header */}
         <div className="sticky top-0 z-40 border-b px-8 py-4 flex items-center justify-between"
           style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
-          <Link href="/workflow" className="flex items-center gap-2 text-sm font-medium hover:opacity-70 transition-opacity"
+          <button 
+            onClick={handleCreateNewBlog}
+            className="flex items-center gap-2 text-sm font-medium hover:opacity-70 transition-opacity"
             style={{ color: "var(--text-secondary)" }}>
             <ArrowLeft size={16} />
-            Back to Workflow
-          </Link>
+            Create New Blog
+          </button>
           <div className="flex gap-2">
             <button className="p-2 rounded-lg hover:opacity-70 transition-opacity" style={{ background: "var(--surface)", color: "var(--text-secondary)" }}>
               <Copy size={16} />
@@ -78,7 +86,7 @@ export default function OutputPage() {
             }`}>
             BLOG
           </button>
-          {analytics && (
+          {analytics && semrushScore && (
             <button
               onClick={() => setActiveTab("analytics")}
               className={`py-4 text-sm font-medium border-b-2 transition-colors ${
@@ -182,9 +190,11 @@ export default function OutputPage() {
               <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
                 Create more SEO-optimized blog posts in minutes.
               </p>
-              <Link href="/workflow" className="btn-primary inline-block">
+              <button 
+                onClick={handleCreateNewBlog}
+                className="btn-primary inline-block">
                 Create New Blog →
-              </Link>
+              </button>
             </div>
 
             {/* Footer */}
@@ -195,8 +205,10 @@ export default function OutputPage() {
             </div>
           </article>
         ) : (
-          <div className="max-w-4xl mx-auto px-12 py-16">
-            {analytics && <AnalyticsDashboard report={analytics} />}
+          <div className="max-w-5xl mx-auto px-12 py-16">
+            {analytics && semrushScore && (
+              <ComprehensiveAnalyticsDashboard report={analytics} semrushScore={semrushScore} />
+            )}
           </div>
         )}
       </div>

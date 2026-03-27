@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Sidebar from "@/components/layout/Sidebar";
+import { useBlogStore } from "@/lib/store";
 import { Search, TrendingUp, AlertCircle } from "lucide-react";
 
 interface SerpResult {
@@ -20,7 +22,9 @@ interface KeywordMetrics {
 }
 
 export default function SerpAnalysisPage() {
-  const [keyword, setKeyword] = useState("");
+  const router = useRouter();
+  const { setKeyword, setAudience, setIntent, setRegion, setTone, setCurrentStep } = useBlogStore();
+  const [keyword, setLocalKeyword] = useState("");
   const [metrics, setMetrics] = useState<KeywordMetrics | null>(null);
   const [results, setResults] = useState<SerpResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -37,7 +41,11 @@ export default function SerpAnalysisPage() {
       keyword,
       volume: Math.floor(Math.random() * 50000) + 1000,
       difficulty: Math.floor(Math.random() * 100),
-      trend: ["up", "down", "stable"][Math.floor(Math.random() * 3)] as "up" | "down" | "stable",
+      trend: [
+        "up",
+        "down",
+        "stable",
+      ][Math.floor(Math.random() * 3)] as "up" | "down" | "stable",
       cpc: Math.floor(Math.random() * 50) + 5,
     };
 
@@ -79,6 +87,19 @@ export default function SerpAnalysisPage() {
     setLoading(false);
   };
 
+  const handleCreateBlog = () => {
+    // Set the keyword and default values
+    setKeyword(keyword);
+    setAudience("Business Professional");
+    setIntent(["informational"]);
+    setRegion("Global");
+    setTone("Professional");
+    setCurrentStep(1);
+
+    // Navigate to workflow
+    router.push("/workflow");
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       analyzeKeyword();
@@ -106,7 +127,7 @@ export default function SerpAnalysisPage() {
                 <input
                   type="text"
                   value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
+                  onChange={(e) => setLocalKeyword(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Enter keyword to analyze..."
                   className="w-full pl-10 pr-4 py-3 rounded-lg text-base outline-none transition-all focus:ring-2"
@@ -114,7 +135,7 @@ export default function SerpAnalysisPage() {
                     background: "var(--surface)",
                     border: "1px solid var(--border)",
                     color: "var(--text)",
-                    "--tw-ring-color": "var(--accent)"
+                    "--tw-ring-color": "var(--accent)",
                   } as React.CSSProperties}
                 />
               </div>
@@ -208,9 +229,11 @@ export default function SerpAnalysisPage() {
                 <p className="mb-4" style={{ color: "var(--text-secondary)" }}>
                   Ready to create content that ranks?
                 </p>
-                <Link href="/workflow" className="btn-primary inline-block">
+                <button 
+                  onClick={handleCreateBlog}
+                  className="btn-primary inline-block">
                   Generate Blog for "{keyword}" →
-                </Link>
+                </button>
               </div>
             </div>
           )}

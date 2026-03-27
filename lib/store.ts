@@ -17,6 +17,7 @@ interface BlogStore extends WorkflowState {
   generateBlog: () => Promise<void>;
   saveProject: () => void;
   reset: () => void;
+  resetForNewBlog: () => void;
 }
 
 const initialState: WorkflowState = {
@@ -120,5 +121,25 @@ export const useBlogStore = create<BlogStore>((set, get) => (({
     localStorage.setItem('blogy_projects', JSON.stringify(projects));
   },
 
-  reset: () => set({ ...initialState, generatedBlog: null, analyticsReport: null, isGenerating: false, error: null }),
+  reset: () => set({ 
+    ...initialState, 
+    generatedBlog: null, 
+    analyticsReport: null,
+    isGenerating: false, 
+    error: null 
+  }),
+
+  resetForNewBlog: () => set({ 
+    currentStep: 1,
+    keyword: '',
+    audience: '',
+    intent: ['informational'],
+    region: 'Global',
+    tone: 'Professional',
+    stepStatuses: Array(7).fill('idle'),
+    generatedBlog: null, 
+    analyticsReport: null,
+    isGenerating: false, 
+    error: null 
+  }),
 })) as BlogStore);

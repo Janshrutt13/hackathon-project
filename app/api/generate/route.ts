@@ -1,5 +1,6 @@
 import { generateBlogWithAI } from "@/lib/aiGenerator";
 import { generateAnalyticsReport } from "@/lib/analyticsCalculator";
+import { calculateSEMrushSEOScore } from "@/lib/semrushCalculator";
 import type { WorkflowState } from "@/lib/types";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -23,12 +24,16 @@ export async function POST(request: NextRequest) {
 
     const blog = await generateBlogWithAI(body);
     
-    // Generate analytics report
+    // Generate 10-metric analytics report
     const analytics = generateAnalyticsReport(blog, body.keyword, 5000, 45);
+    
+    // Generate SEMrush-style SEO optimization score
+    const semrushScore = calculateSEMrushSEOScore(blog, body.keyword);
 
     return NextResponse.json({
       ...blog,
       analytics,
+      semrushScore,
     });
   } catch (error) {
     console.error("Blog generation error:", error);

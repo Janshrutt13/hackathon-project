@@ -23,7 +23,7 @@ export async function generateBlogWithAI(state: WorkflowState): Promise<Generate
   const { keyword, audience, intent, tone, region } = state;
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     // Generate title
     const titleResponse = await model.generateContent(
@@ -118,11 +118,11 @@ export async function generateBlogWithAI(state: WorkflowState): Promise<Generate
 
 function parseSections(text: string): GeneratedBlog["sections"] {
   const sections: GeneratedBlog["sections"] = [];
-  const sectionMatches = text.match(/SECTION \d+:\s*(.+?)\n([\s\S]*?)(?=SECTION \d+:|$)/g) || [];
+  const sectionMatches = text.match(/SECTION \d+:\s*(.+?)\n([\\s\\S]*?)(?=SECTION \d+:|$)/g) || [];
 
   sectionMatches.forEach((match) => {
     const headingMatch = match.match(/SECTION \d+:\s*(.+?)\n/);
-    const contentMatch = match.match(/\n([\s\S]+?)(?=SECTION|$)/);
+    const contentMatch = match.match(/\n([\\s\\S]+?)(?=SECTION|$)/);
 
     if (headingMatch && contentMatch) {
       sections.push({
@@ -178,23 +178,23 @@ function getDefaultSections(keyword: string, audience: string): GeneratedBlog["s
   return [
     {
       heading: "Introduction",
-      content: `${keyword} has become increasingly important in today's digital landscape. Whether you're a ${audience} or just getting started, understanding the fundamentals of ${keyword} is crucial for success. This comprehensive guide will walk you through everything you need to know about ${keyword}, from basic concepts to advanced strategies.\n\nIn this article, we'll explore what ${keyword} is, why it matters, and how you can leverage it to achieve your goals. By the end, you'll have a clear understanding of how to implement ${keyword} effectively in your workflow.`,
+      content: `${keyword} has become increasingly important in today's digital landscape. Whether you're a ${audience} or just getting started, understanding the fundamentals of ${keyword} is crucial for success. This comprehensive guide will walk you through everything you need to know about ${keyword}, from basic concepts to advanced strategies.\\n\\nIn this article, we'll explore what ${keyword} is, why it matters, and how you can leverage it to achieve your goals. By the end, you'll have a clear understanding of how to implement ${keyword} effectively in your workflow.`,
     },
     {
       heading: `What is ${keyword}?`,
-      content: `${keyword} refers to a set of practices and methodologies designed to help you achieve better results. At its core, ${keyword} is about understanding your audience, analyzing data, and making informed decisions.\n\nThe concept of ${keyword} has evolved significantly over the years, and today's approach to ${keyword} is more sophisticated and data-driven than ever before. Modern ${keyword} combines traditional best practices with cutting-edge technology and innovative strategies.`,
+      content: `${keyword} refers to a set of practices and methodologies designed to help you achieve better results. At its core, ${keyword} is about understanding your audience, analyzing data, and making informed decisions.\\n\\nThe concept of ${keyword} has evolved significantly over the years, and today's approach to ${keyword} is more sophisticated and data-driven than ever before. Modern ${keyword} combines traditional best practices with cutting-edge technology and innovative strategies.`,
     },
     {
       heading: "Why It Matters",
-      content: `For ${audience}, ${keyword} is not just a nice-to-have—it's essential. Here's why ${keyword} matters:\n\n• Improved efficiency and productivity through ${keyword}\n• Better decision-making based on data from ${keyword}\n• Competitive advantage in your industry using ${keyword}\n• Enhanced results and measurable outcomes with ${keyword}\n• Scalability and long-term growth through ${keyword}\n\nOrganizations that master ${keyword} consistently outperform their competitors and achieve better results across all metrics.`,
+      content: `For ${audience}, ${keyword} is not just a nice-to-have—it's essential. Here's why ${keyword} matters:\\n\\n• Improved efficiency and productivity through ${keyword}\\n• Better decision-making based on data from ${keyword}\\n• Competitive advantage in your industry using ${keyword}\\n• Enhanced results and measurable outcomes with ${keyword}\\n• Scalability and long-term growth through ${keyword}\\n\\nOrganizations that master ${keyword} consistently outperform their competitors and achieve better results across all metrics.`,
     },
     {
       heading: `Best Practices for ${keyword}`,
-      content: `To get the most out of ${keyword}, follow these proven best practices:\n\n1. Start with clear goals and objectives for ${keyword}\n2. Analyze your current situation thoroughly before implementing ${keyword}\n3. Implement ${keyword} changes gradually and measure results\n4. Stay updated with latest trends and developments in ${keyword}\n5. Continuously optimize your ${keyword} strategy based on performance data\n6. Invest in training and skill development for ${keyword}\n\nThese practices have been tested and proven effective across various industries and use cases of ${keyword}.`,
+      content: `To get the most out of ${keyword}, follow these proven best practices:\\n\\n1. Start with clear goals and objectives for ${keyword}\\n2. Analyze your current situation thoroughly before implementing ${keyword}\\n3. Implement ${keyword} changes gradually and measure results\\n4. Stay updated with latest trends and developments in ${keyword}\\n5. Continuously optimize your ${keyword} strategy based on performance data\\n6. Invest in training and skill development for ${keyword}\\n\\nThese practices have been tested and proven effective across various industries and use cases of ${keyword}.`,
     },
     {
       heading: `Implementation Strategy for ${keyword}`,
-      content: `Implementing ${keyword} successfully requires a structured approach. Begin by assessing your current state and identifying areas for improvement in ${keyword}. Create a detailed action plan with specific milestones and timelines for ${keyword}.\n\nNext, allocate necessary resources and ensure your team has the skills and tools needed for ${keyword}. Monitor progress regularly and be prepared to adjust your ${keyword} strategy based on results. Remember that ${keyword} is an ongoing process, not a one-time project.`,
+      content: `Implementing ${keyword} successfully requires a structured approach. Begin by assessing your current state and identifying areas for improvement in ${keyword}. Create a detailed action plan with specific milestones and timelines for ${keyword}.\\n\\nNext, allocate necessary resources and ensure your team has the skills and tools needed for ${keyword}. Monitor progress regularly and be prepared to adjust your ${keyword} strategy based on results. Remember that ${keyword} is an ongoing process, not a one-time project.`,
     },
   ];
 }
